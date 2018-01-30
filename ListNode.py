@@ -32,7 +32,53 @@ def appendNode(ll,nextValue):
 		ll.next = appendNode(ll.next,nextValue)
 		return ll
 
+def findNode(ll, PID):
+	curr = ll
+	prev = None
+	while curr:
+		#print("this is curr:",curr.value.PID)
+		if curr.value.PID == PID:
+			return True
+		curr = curr.next
+	return False
 
+def getNode(ll, PID):
+	curr = ll
+	prev = None
+	while curr:
+		if curr.value.PID == PID:
+			return curr.value
+		curr = curr.next
+	return None
+
+def getNodeLN(ll, PID): #this returns the LN version of the right PID
+	curr = ll
+	prev = None
+	while curr:
+		if curr.value.PID == PID:
+			return curr
+		curr = curr.next
+	return None
+
+def removeNode(ll, PID):
+	if(ll is None):
+		raise Excption("trying to delete from a empty linked list")
+	prev = None
+	curr = ll
+	if(curr is not None):
+		print("here")
+		if (curr.value.PID == PID):
+			return delHeadNode(ll)
+	while curr:
+		if(curr.value.PID == PID):
+			break
+		prev = curr
+		curr = curr.next
+	if(curr == None):
+		return ll 
+	prev.next = curr.next
+	del curr
+	return ll
 
 '''
 Example of how to use the Linked List...

@@ -2,8 +2,26 @@
 from ReadyList import *#ready list
 from  RCB import * #ready control block
 from ListNode import *
-def create(name: "PID", priority : "Number"):
-	pass
+
+def create(name: "PID", priority : "Number", RL : "ReadyList"): #parent : "PCB" the paprent portion came from 10:02 from lecture 2
+	newPCB = PCB(name,priority)
+	parent = RL.get_List(2) if (RL.get_List(2) != None and RL.get_List(2).type == "Running") else RL.get_List(1) if (RL.get_List(1) != None and RL.get_List(1).type == "Running") else Rl.get_List(0)
+	parentChildren = parent.get_child() #returns the head pointer of the children of running RL
+	while(parentChildren != None):
+		parentChildren = parentChildren.next 
+	parentChildren.next = LN(newPCB)  #setting the child val within the PARENT PCB
+	newPCB.set_parent(parent)
+	newPCB.set_back_list(RL)	
+
+	parentLN = RL.get_List(priority);
+	if(parentLN == None):
+		set_list(priority,LN(newPCB))
+	else:
+		appendNode(parentLN, newPCB) #this will append the newPCB at the back of the linkedlist.
+
+
+	#call scheduler
+
 	'''
 	create PCB data structure
 	init PCB using params
@@ -43,16 +61,59 @@ def release(rid, n_units):
 		insert(RL, q)
 	Scheduler
 	'''
-
-def Kill_tree(p):
+def get_PCB_priority(RL,p):
+	currPCB = None
+	priority = 2
+	if(findNode(RL.get_List(2),p.PID)):
+		#we know that the PID is in the LL of val 2...
+		currPCB = RL.get_List(2)
+	elif(findNode(RL.get_List(1),p.PID)):
+		currPCB = RL.get_List(1)
+		priority = 1
+		#currPCB = getNodeLN(RL.get_List(1), p.PID)
+	elif(findNode(RL.get_List(0),p.PID)):
+		currPCB = RL.get_List(0)
+		priority = 0
+	return currPCB, priority
+def Kill_tree(RL,p):
+	if(p.child == None): #we know that there is nothing that spawned off of it
+		tempPCB = get_PCB_priority(RL,p)
+		if(tempPCB[0].value.PID == p.PID): #This is the first PCB....
+			RL.set_list(tempPCB[1], delHeadNode(tempPCB[0]))
+			print("got to remove node:, ",p.PID, "currentPCB: ", tempPCB[0])
+		else:
+			print("got to remove node second: ",p.PID)
+			removeNode(tempPCB[0], p.PID)
+		return
+	for child in p.child:
+		Kill_tree(RL,child)
+	tempPCB = get_PCB_priority(RL,p)
+	if(tempPCB[0].value.PID == p.PID): #This is the first PCB....
+		RL.set_list(tempPCB[1], delHeadNode(tempPCB[0]))
+		print("got to remove node:, ",p.PID, "currentPCB: ", tempPCB[0])
+	else:
+		print("got to remove node second: ",p.PID)
+		removeNode(tempPCB[0], p.PID)
+	return
 	'''
 	for all children processes q, kill tree Q
 	free resources  								#free when you get down to the leaves
 	delete PCB and update all pointers
 	'''
 
-def destroy(PID):
-	pass
+def destroy(RL,PID):
+	#not too sure how to get the value of the PCB....
+	currPCB = None
+	if(findNode(RL.get_List(2),PID)):
+		#we know that the PID is in the LL of val 2...
+		currPCB = getNode(RL.get_List(2), PID) #This is now equal to the PCB with the PID
+	elif(findNode(RL.get_List(1),PID)):
+		currPCB = getNode(RL.get_List(1), PID)
+	elif(findNode(RL.get_List(0),PID)):
+		currPCB = getNode(RL.get_List(0), PID)
+	if(currPCB == None):
+		raise Exception("PID Not in ReadyList")
+	Kill_tree(RL,currPCB)
 	'''
 	get pointer p to PCB using pid
 	Kill_tree(p)
@@ -66,8 +127,98 @@ def destroy(PID):
 
 
 if __name__ == '__main__' :
-	lll = LN(5)
-	rcb = RCB(5,waiting_list = lll)
+	rl = ReadyList()
+	# pb = LN(PCB(4,2))
+	# appendNode(pb,PCB(6,2))
+	# rl.set_list(2,pb)
+	z = LN(PCB(8,1))
+	rl.set_list(1,z)
+	father = PCB(7,1)
+	c1 = LN(PCB(5,2))
+	rl.set_list(2,c1)
+	father.set_child(c1)
+	appendNode(rl.get_List(1),father)
+	for v in rl.get_List(1):
+		print("pid is : ", v.PID)
+	for v in rl.get_List(2):
+		print("pid is : ", v.PID)
+
+	#rl.set_list(1,removeNode(rl.get_List(1),8)) # could do this, or just check if val is the first one and then call delHeadNode
+
+	destroy(rl, 7)
+
+	for v in rl.get_List(1):
+		print("pid is : ", v.PID)
+	print(rl.get_List(2))
+	# for v in rl.get_List(2):
+	# 	print("pid is : ", v.PID)
+
+
+
+# 	lll = LN(5)
+# 	appendNode(lll, 4)
+# #setter methods for a linked list. 
+# 	rl.set_list(1,lll)
+# 	appendNode(rl.get_List(1),7)
+# 	for ele in rl.get_List(1):
+# 		print(ele)
+# 	destroy()
+# 	#print(x.value)
+# 	rcb = RCB(5,waiting_list = lll)
 
 
 	print("") 
+
+	#How to use the LN along with the destory function. 
+	# rl = ReadyList()
+
+	# pb = LN(PCB(4,2))
+	# appendNode(pb,PCB(6,2))
+	# rl.set_list(2,pb)
+'''
+		if(p.child == None): #we know that there is nothing that spawned off of it
+		currPCB = None
+		priority = 2
+		if(findNode(RL.get_List(2),p.PID)):
+			#we know that the PID is in the LL of val 2...
+			currPCB = RL.get_List(2)
+		elif(findNode(RL.get_List(1),p.PID)):
+			currPCB = RL.get_List(1)
+			priority = 1
+			#currPCB = getNodeLN(RL.get_List(1), p.PID)
+		elif(findNode(RL.get_List(0),p.PID)):
+			currPCB = RL.get_List(0)
+			priority = 0
+			#currPCB = getNodeLN(RL.get_List(0), p.PID)
+		print("This is the current value of pcb: ",currPCB.value.PID)
+		if(currPCB.value.PID == p.PID): #This is the first PCB....
+			RL.set_list(priority, delHeadNode(currPCB))
+			print("got to remove node:, ",p.PID, "currentPCB: ", currPCB)
+		else:
+			print("got to remove node second: ",p.PID)
+			removeNode(currPCB, p.PID)
+		return
+	for child in p.child:
+		Kill_tree(RL,child)
+	currPCB = None
+	priority = 2
+	if(findNode(RL.get_List(2),p.PID)):
+		#we know that the PID is in the LL of val 2...
+		currPCB = RL.get_List(2)
+	elif(findNode(RL.get_List(1),p.PID)):
+		currPCB = RL.get_List(1)
+		priority = 1
+		#currPCB = getNodeLN(RL.get_List(1), p.PID)
+	elif(findNode(RL.get_List(0),p.PID)):
+		currPCB = RL.get_List(0)
+		priority = 0
+		#currPCB = getNodeLN(RL.get_List(0), p.PID)
+	print("This is the current value of pcb: ",currPCB.value.PID)
+	if(currPCB.value.PID == p.PID): #This is the first PCB....
+		RL.set_list(priority, delHeadNode(currPCB))
+		print("got to remove node:, ",p.PID, "currentPCB: ", currPCB)
+	else:
+		print("got to remove node second: ",p.PID)
+		removeNode(currPCB, p.PID)
+	return
+	'''

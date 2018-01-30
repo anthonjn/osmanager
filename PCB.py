@@ -2,12 +2,12 @@ from ReadyList import *#ready list
 from  RCB import * #ready control block
 from ListNode import *
 class PCB:
-	def __init__(self, ID, p):
+	def __init__(self, ID, p: "priority"):
 		self.PID = ID 	#name that is given
 		self.priority = p #(0,1,2)  
 		self.other_resources = None #this is supposed to be a linked list of RCB's
 		self.type = "Ready" #running blocked ready
-		self.back_list = None#if running then pointing to the RL, if is it blocked, points to the resources which is blocking it
+		self.back_list = None#if running/ready then pointing to the RL, if is it blocked, points to the resources which is blocking it
 		self.parent = None; #pointer to another PCB
 		self.child = None;      #linked list with pointer to many pcb's 
 
