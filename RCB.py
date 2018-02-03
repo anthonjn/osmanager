@@ -1,7 +1,7 @@
 #Resource Control Block
 class RCB:
-	def __init__(self, Ri = None, start_units = None, current_units = None , waiting_list = None):
-		self.RID = Ri
+	def __init__(self, Rid = None, start_units = None, current_units = None , waiting_list = None):
+		self.RID = Rid
 		self.start_units = start_units
 		self.current_units = current_units
 		self.waiting_list = waiting_list #list of blocked resource
@@ -31,5 +31,6 @@ class RCB:
 
 	def get_waitingList(self):
 		return self.waiting_list
+
 
 #results of request

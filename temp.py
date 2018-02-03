@@ -1,36 +1,80 @@
-class LN:
-    def __init__(self : "LN", value : object, nxt : "LN" = None):
-        self.value = value
-        self.next  = nxt
-    '''
-    this is used for something like:
-    for v in ll:
-    	print(v)
-    this will print things from the beginning to the end of the linked list
-    '''
-    def __iter__(self):
-    	curr = self
-    	while curr != None:
-    		yield curr.value
-    		curr = curr.next
-    def getVal(self):
-    	return self.value
+# class LN:
+#     def __init__(self : "LN", value : object, nxt : "LN" = None):
+#         self.value = value
+#         self.next  = nxt
+#     '''
+#     this is used for something like:
+#     for v in ll:
+#     	print(v)
+#     this will print things from the beginning to the end of the linked list
+#     '''
+#     def __iter__(self):
+#     	curr = self
+#     	while curr != None:
+#     		yield curr.value
+#     		curr = curr.next
+#     def getVal(self):
+#     	return self.value
 
-def delHeadNode(ll):
-	ll = ll.next
+# def delHeadNode(ll):
+# 	ll = ll.next
 
-ln = LN(3)
-ln.next = LN(5)
-ln.next.next = LN(8)
-ln.next.next = LN(ln.getVal())
-delHeadNode(ln)
+# ln = LN(3)
+# ln.next = LN(5)
+# ln.next.next = LN(8)
+# ln.next.next = LN(ln.getVal())
+# delHeadNode(ln)
 
 
-for ele in ln:
-	print(ele)
+# for ele in ln:
+# 	print(ele)
 
-def retTwo(a):
-	return a, 2*a
+# def retTwo(a):
+# 	return a, 2*a
 
-l = retTwo(5)
-print(l[0], " ", l[1])
+# l = retTwo(5)
+# print(l[0], " ", l[1])
+
+from collections import defaultdict
+
+def LRS(array, index, key):
+    if(index<0):
+        return -1
+    if(array[index] == key):
+        return index
+    return LRS(array,index-1,key)
+li = [-3,9,8,1,5]
+x = LRS(li,4,8)
+print(x)
+
+
+defa = defaultdict(int)
+defa["hello"] +=1
+defa["be"] +=1
+for k,v in defa.items():
+	print(k, " ", v)
+
+
+
+
+
+
+Request: the first part
+use this to debug, not totally sure how the second part works, but this works for adding things
+
+	rl = ReadyList()
+	pb = LN(PCB(4,2))
+	pb.value.set_type("Running")
+	appendNode(pb,PCB(6,2))
+	rl.set_list(2,pb)
+
+	r1 = RCB(1532,20,20)
+	r2 = RCB(1533,20,20)
+	r3 = RCB(1534,20,20)
+	r4 = RCB(1535,20,20)
+	RCBList = [r1,r2,r3,r3]
+
+	request(1532,2,RCBList, rl)
+
+	for k,v in pb.value.get_other_resources().items():
+		print("key: ", k, " value: ", v)

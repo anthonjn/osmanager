@@ -20,6 +20,7 @@ class ReadyList:
 			
 	def get_List(self,num: "priority"):
 		return self.initList if (num == 0) else self.userList if (num == 1) else self.systemList
+
 '''
 this is how it would look.
 	rl = ReadyList()

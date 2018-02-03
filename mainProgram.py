@@ -7,9 +7,10 @@ def create(name: "PID", priority : "Number", RL : "ReadyList"): #parent : "PCB" 
 	newPCB = PCB(name,priority)
 	parent = RL.get_List(2) if (RL.get_List(2) != None and RL.get_List(2).type == "Running") else RL.get_List(1) if (RL.get_List(1) != None and RL.get_List(1).type == "Running") else Rl.get_List(0)
 	parentChildren = parent.get_child() #returns the head pointer of the children of running RL
-	while(parentChildren != None):
-		parentChildren = parentChildren.next 
-	parentChildren.next = LN(newPCB)  #setting the child val within the PARENT PCB
+	appendNode(parentChildren, newPCB)
+	# while(parentChildren != None):
+	# 	parentChildren = parentChildren.next 
+	# parentChildren.next = LN(newPCB)  #setting the child val within the PARENT PCB
 	newPCB.set_parent(parent)
 	newPCB.set_back_list(RL)	
 
@@ -30,8 +31,28 @@ def create(name: "PID", priority : "Number", RL : "ReadyList"): #parent : "PCB" 
 	scheduler()  - see who goes next
 	'''
 
-def request(rid, n_units):
-	pass
+def request(rid, n_units, RCBList, RL):
+	#also going to have a list param, that has all 4 RCB's and so you can iterate through and look for the 
+	#correct RID. 
+	#Getting the correct RCB
+	for rcb in RCBList:
+		if(rcb.get_RID() == rid):
+			RCB = rcb
+	if(RL.get_List(2) != None and RL.get_List(2).value.get_type() == "Running"):
+		currRunning = RL.get_List(2)
+	elif(RL.get_List(1) != None and RL.get_List(1).value.get_type() == "Running"):
+		currRunning = RL.get_List(1)
+	elif(RL.get_List(0) != None and RL.get_List(0).value.get_type() == "Running"):
+		currRunning = RL.get_List(0)
+		
+	if(RCB.get_currentUnits() >= n_units): #we were able to subtract some units within the RCB
+		RCB.set_currentUnits(RCB.get_currentUnits()-n_units)
+		currRunning.value.other_resources[rid] += n_units	#increment the values within the default dict.
+	else:
+		currRunning.value.set_type("Blocked")
+		currRunning.value.set_back_list(RCB)
+
+		pass
 	#check if n_units > than start_units
 	'''
 	r = GET_RCB(rid)
@@ -42,7 +63,7 @@ def request(rid, n_units):
 		self->status.type = Blocked
 		self->status.list = r      #the back pointer would point to the resource that is doing the blocking
 		remove(RL, self)
-		insert(r->waiting_list, self)
+		insert(r->waiting_list, self)	#put it at the back of the ready list. 
 		scheduler()
 		'''
 	
@@ -75,6 +96,10 @@ def get_PCB_priority(RL,p):
 		currPCB = RL.get_List(0)
 		priority = 0
 	return currPCB, priority
+	
+#WITHIN HERE HAVE TO LOOK OUT FOR THE BLOCKED LIST TO SEE IF THE PROCESS IS ON THERE TOO
+#OTHERWISE THINGS COULD GO VERY WRONG...
+
 def Kill_tree(RL,p):
 	if(p.child == None): #we know that there is nothing that spawned off of it
 		tempPCB = get_PCB_priority(RL,p)
@@ -87,6 +112,7 @@ def Kill_tree(RL,p):
 		return
 	for child in p.child:
 		Kill_tree(RL,child)
+
 	tempPCB = get_PCB_priority(RL,p)
 	if(tempPCB[0].value.PID == p.PID): #This is the first PCB....
 		RL.set_list(tempPCB[1], delHeadNode(tempPCB[0]))
@@ -127,29 +153,49 @@ def destroy(RL,PID):
 
 
 if __name__ == '__main__' :
+	
 	rl = ReadyList()
+	pb = LN(PCB(4,2))
+	pb.value.set_type("Running")
+	appendNode(pb,PCB(6,2))
+	rl.set_list(2,pb)
+
+	r1 = RCB(1532,20,20)
+	r2 = RCB(1533,20,20)
+	r3 = RCB(1534,20,20)
+	r4 = RCB(1535,20,20)
+	RCBList = [r1,r2,r3,r3]
+
+	request(1532,2,RCBList, rl)
+
+	for k,v in pb.value.get_other_resources().items():
+		print("key: ", k, " value: ", v)
+	# rl = ReadyList()
 	# pb = LN(PCB(4,2))
 	# appendNode(pb,PCB(6,2))
 	# rl.set_list(2,pb)
-	z = LN(PCB(8,1))
-	rl.set_list(1,z)
-	father = PCB(7,1)
-	c1 = LN(PCB(5,2))
-	rl.set_list(2,c1)
-	father.set_child(c1)
-	appendNode(rl.get_List(1),father)
-	for v in rl.get_List(1):
-		print("pid is : ", v.PID)
-	for v in rl.get_List(2):
-		print("pid is : ", v.PID)
+	# z = LN(PCB(8,1))
+	# rl.set_list(1,z)
+	# father = PCB(7,1)
+	# c1 = PCB(5,2)
+	# c2 = PCB(4,2)
+	# c1.set_child(LN(c2))
+	# rl.set_list(2,LN(c1))
+	# father.set_child(LN(c1))
+	# appendNode(rl.get_List(2),c2)
+	# appendNode(rl.get_List(1),father)
+	# for v in rl.get_List(1):
+	# 	print("pid is : ", v.PID)
+	# for v in rl.get_List(2):
+	# 	print("pid is : ", v.PID)
 
-	#rl.set_list(1,removeNode(rl.get_List(1),8)) # could do this, or just check if val is the first one and then call delHeadNode
+	# #rl.set_list(1,removeNode(rl.get_List(1),8)) # could do this, or just check if val is the first one and then call delHeadNode
 
-	destroy(rl, 7)
+	# destroy(rl, 7)
 
-	for v in rl.get_List(1):
-		print("pid is : ", v.PID)
-	print(rl.get_List(2))
+	# for v in rl.get_List(1):
+	# 	print("pid is : ", v.PID)
+	# print(rl.get_List(2))
 	# for v in rl.get_List(2):
 	# 	print("pid is : ", v.PID)
 

@@ -1,0 +1,19 @@
+Things to remember:
+
+List Node:
+		you have methods like appendNode, findNode, getNode, ect.
+		remember to have the correct return types, there are some functions that return the next value 
+		so you have to say x = delHeadNode() ect
+
+
+Ready List:
+		pretty self explainatory, have to look at the different parameters to continue
+		remember for the get_List, you can return a None value, so in order too watch  out for that do not iterate thoguht it when it gets too much.
+
+PCB: 
+		You have a ton of different getters/setter methods, so in order to do this, you have to make sure that 
+		you're puttin gin a LIST NODE for some of the ones that require listNODES otherwise you wont be able to iterate though it later on
+
+MAIN:
+		Create:
+			remember that the create function will create an item and put it onto the linkedlist with the corresponding list and will append it to the child process'
