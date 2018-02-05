@@ -1,4 +1,5 @@
 #Resource Control Block
+from ListNode import *
 class RCB:
 	def __init__(self, Rid = None, start_units = None, current_units = None , waiting_list = None):
 		self.RID = Rid
@@ -32,5 +33,13 @@ class RCB:
 	def get_waitingList(self):
 		return self.waiting_list
 
+def insert_waitingList(RCB, data):
+	if(RCB.get_waitingList() == None):
+		RCB.set_waitingList(LN(data))
+	else:
+		RCB.set_waitingList(appendNode(RCB.get_waitingList(), data))
+	return;
 
 #results of request
+
+

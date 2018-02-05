@@ -49,32 +49,71 @@ print(x)
 
 
 defa = defaultdict(int)
-defa["hello"] +=1
+if(defa["hello"]):
+	pirnt('ok') 
 defa["be"] +=1
 for k,v in defa.items():
 	print(k, " ", v)
 
 
+# def a(b):
+# 	return b,b
+
+# z = a(5)
+# l, m = z[0], z[1]
+# print(l,m)
 
 
 
+# Request: the first part
+# use this to debug, not totally sure how the second part works, but this works for adding things
 
-Request: the first part
-use this to debug, not totally sure how the second part works, but this works for adding things
+# 	rl = ReadyList()
+# 	pb = LN(PCB(4,2))
+# 	pb.value.set_type("Running")
+# 	appendNode(pb,PCB(6,2))
+# 	rl.set_list(2,pb)
 
-	rl = ReadyList()
-	pb = LN(PCB(4,2))
-	pb.value.set_type("Running")
-	appendNode(pb,PCB(6,2))
-	rl.set_list(2,pb)
+# 	r1 = RCB(1532,20,20)
+# 	r2 = RCB(1533,20,20)
+# 	r3 = RCB(1534,20,20)
+# 	r4 = RCB(1535,20,20)
+# 	RCBList = [r1,r2,r3,r3]
 
-	r1 = RCB(1532,20,20)
-	r2 = RCB(1533,20,20)
-	r3 = RCB(1534,20,20)
-	r4 = RCB(1535,20,20)
-	RCBList = [r1,r2,r3,r3]
+# 	request(1532,2,RCBList, rl)
 
-	request(1532,2,RCBList, rl)
+# 	for k,v in pb.value.get_other_resources().items():
+# 		print("key: ", k, " value: ", v)
+# 			#use this to look at the waiting list, and see what's inside the list
+# 	for ele in r1.waiting_list:
+# 		print("ele: ",ele.value.PID)
 
-	for k,v in pb.value.get_other_resources().items():
-		print("key: ", k, " value: ", v)
+
+# #the test for multiple running programs that are put on the waiting list, after they are running
+
+
+# 	rl = ReadyList()
+# 	pb = LN(PCB(4,2))
+# 	pb.value.set_type("Running")
+# 	appendNode(pb,PCB(6,2))
+# 	rl.set_list(2,pb)
+
+# 	r1 = RCB(1532,20,20)
+# 	r2 = RCB(1533,20,20)
+# 	r3 = RCB(1534,20,20)
+# 	r4 = RCB(1535,20,20)
+# 	RCBList = [r1,r2,r3,r3]
+
+# 	request(1532,200,RCBList, rl)
+
+# 	pb2 = LN(PCB(6,2))
+# 	pb2.value.set_type("Running")
+# 	appendNode(pb,PCB(7,2))
+# 	rl.set_list(2,pb2)
+
+# 	request(1532,200,RCBList, rl)
+# 	for k,v in pb.value.get_other_resources().items():
+# 		print("key: ", k, " value: ", v)
+
+	# for ele in r1.waiting_list:
+	# 	print("ele: ",ele[0].value.PID)

@@ -30,6 +30,17 @@ def create(name: "PID", priority : "Number", RL : "ReadyList"): #parent : "PCB" 
 	insert(RL, PCB)
 	scheduler()  - see who goes next
 	'''
+def getCurrentlyRunning(RL):
+	level=0
+	if(RL.get_List(2) != None and RL.get_List(2).value.get_type() == "Running"):
+		currRunning = RL.get_List(2)
+		level  =2
+	elif(RL.get_List(1) != None and RL.get_List(1).value.get_type() == "Running"):
+		currRunning = RL.get_List(1)
+		level = 1
+	elif(RL.get_List(0) != None and RL.get_List(0).value.get_type() == "Running"):
+		currRunning = RL.get_List(0)
+	return currRunning, level
 
 def request(rid, n_units, RCBList, RL):
 	#also going to have a list param, that has all 4 RCB's and so you can iterate through and look for the 
@@ -38,12 +49,7 @@ def request(rid, n_units, RCBList, RL):
 	for rcb in RCBList:
 		if(rcb.get_RID() == rid):
 			RCB = rcb
-	if(RL.get_List(2) != None and RL.get_List(2).value.get_type() == "Running"):
-		currRunning = RL.get_List(2)
-	elif(RL.get_List(1) != None and RL.get_List(1).value.get_type() == "Running"):
-		currRunning = RL.get_List(1)
-	elif(RL.get_List(0) != None and RL.get_List(0).value.get_type() == "Running"):
-		currRunning = RL.get_List(0)
+	currRunning, level = getCurrentlyRunning(RL)
 		
 	if(RCB.get_currentUnits() >= n_units): #we were able to subtract some units within the RCB
 		RCB.set_currentUnits(RCB.get_currentUnits()-n_units)
@@ -51,9 +57,12 @@ def request(rid, n_units, RCBList, RL):
 	else:
 		currRunning.value.set_type("Blocked")
 		currRunning.value.set_back_list(RCB)
-		#now i have to remove item from the ready list. 
-		#and now need to put it onto the waitinglist on the RCB its being blocked by
-		pass
+		RL.set_list(level, delHeadNode(RL.get_List(level))) #this deletes the head node, for that particular level
+		insert_waitingList(RCB, (currRunning,n_units))   #the currently running pcb along wiht n_units is now inserted into the waiting list of the resource
+		print("this is the curr running", RCB.waiting_list.value)
+		print("this is the units: ", RCB.waiting_list.value[1])
+		print("go tto the end else statement")
+		return;
 	#check if n_units > than start_units
 	'''
 	r = GET_RCB(rid)
@@ -68,13 +77,22 @@ def request(rid, n_units, RCBList, RL):
 		scheduler()
 		'''
 	
-def release(rid, n_units):
+def release(rid, n_units, RCBList, RL):
+	for rcb in RCBList:
+		if(rcb.get_RID() == rid):
+			RCB = rcb
+	RCB.set_currentUnits(RCB.get_currentUnits()+n_units) #increased the number of units
+	#we have to release from the currently running process. 
+	currRunning, level = getCurrentlyRunning(RL) #currRunning is a ListNode of a PCB
+	currRunning.value.other_resources[rid] = 0 #setting the value of the RID equal to 0, essentially deleting the value from the dictionary
+	while(RCB.waiting_list != None and n_units >= RCB.waiting_list.value[1]):
+
 	pass
 	'''
 	r = GET_RCB(rid)
 	u = u+n //updating the number of avaliable units, we now have n_units avaliable
 	remove(self->Other_resources,r)
-	while(r->waiting_list != empty and u >= request):	//units avaliable is greater or equal to the requesting units
+	while(r->waiting_list != empty and u >= request):	//units avaliable is greater or equal to the requesting units of the PCB on the waiting list
 		u = u-request
 		remove(r->waitingList, q)
 		q->status.type = 'ready'
@@ -167,10 +185,19 @@ if __name__ == '__main__' :
 	r4 = RCB(1535,20,20)
 	RCBList = [r1,r2,r3,r3]
 
-	request(1532,2,RCBList, rl)
+	request(1532,200,RCBList, rl)
 
+	pb2 = LN(PCB(6,2))
+	pb2.value.set_type("Running")
+	appendNode(pb,PCB(7,2))
+	rl.set_list(2,pb2)
+
+	request(1532,200,RCBList, rl)
 	for k,v in pb.value.get_other_resources().items():
 		print("key: ", k, " value: ", v)
+
+	for ele in r1.waiting_list:
+		print("ele: ",ele[0].value.PID)
 	# rl = ReadyList()
 	# pb = LN(PCB(4,2))
 	# appendNode(pb,PCB(6,2))
