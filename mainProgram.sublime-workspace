@@ -1,0 +1,497 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"paddi",
+				"padding-right"
+			],
+			[
+				"padd",
+				"padding-left"
+			],
+			[
+				"head",
+				"head_font"
+			],
+			[
+				"left",
+				"padding-left"
+			],
+			[
+				"curr",
+				"currRunning"
+			],
+			[
+				"get",
+				"get_List"
+			],
+			[
+				"n",
+				"n_units"
+			],
+			[
+				"RCB",
+				"RCBList"
+			],
+			[
+				"R",
+				"RCB"
+			],
+			[
+				"fp",
+				"fprintf\tfprintf …"
+			],
+			[
+				"out",
+				"Output"
+			],
+			[
+				"exit",
+				"EXIT_SUCCESS"
+			],
+			[
+				"pdi",
+				"pid_t"
+			],
+			[
+				"pid",
+				"pid_t"
+			],
+			[
+				"exi",
+				"EXIT_SUCCESS"
+			],
+			[
+				"ret",
+				"retTwo"
+			],
+			[
+				"del",
+				"delHeadNode"
+			],
+			[
+				"kill",
+				"Kill_tree"
+			],
+			[
+				"val",
+				"value"
+			],
+			[
+				"paren",
+				"parentChildren"
+			],
+			[
+				"parent",
+				"parentChildren"
+			],
+			[
+				"pare",
+				"parentChildren"
+			],
+			[
+				"childre",
+				"childrenOfParent"
+			],
+			[
+				"prio",
+				"prior"
+			],
+			[
+				"takenc",
+				"takenClassNum"
+			],
+			[
+				"temp",
+				"tempnum"
+			],
+			[
+				"offer",
+				"offerArray"
+			],
+			[
+				"reqi",
+				"required"
+			],
+			[
+				"took",
+				"flagTookClass"
+			],
+			[
+				"takenclas",
+				"takenClassNum"
+			],
+			[
+				"prereq",
+				"prereqArray"
+			],
+			[
+				"req",
+				"reqClasses"
+			],
+			[
+				"name",
+				"className"
+			],
+			[
+				"tknPtr",
+				"tokenPtr"
+			],
+			[
+				"stri",
+				"string"
+			],
+			[
+				"word",
+				"wordCounter"
+			],
+			[
+				"has",
+				"hasName"
+			],
+			[
+				"strin",
+				"strLocation"
+			],
+			[
+				"prreq",
+				"prereqArray"
+			],
+			[
+				"take",
+				"takeclass"
+			],
+			[
+				"clas",
+				"classname"
+			],
+			[
+				"pree",
+				"prereqArray"
+			],
+			[
+				"j",
+				"j"
+			],
+			[
+				"need",
+				"needClass"
+			],
+			[
+				"pr",
+				"printf\tprintf …"
+			],
+			[
+				"num",
+				"numReq"
+			],
+			[
+				"pre",
+				"prereqArray"
+			],
+			[
+				"prere",
+				"prereqArray"
+			],
+			[
+				"str",
+				"strtok"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"bre",
+				"brelse"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"font",
+				"font-size"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Anthony/Documents/FitFriends/FitFriends/frontpage.html",
+		"/C/Users/Anthony/Documents/FitFriends/FitFriends/faq.html",
+		"/C/Users/Anthony/Documents/FitFriends/FitFriends/cssfrontpage/style.css",
+		"/C/Users/Anthony/Documents/FitFriends/FitFriends/css/style.css",
+		"/C/Users/Anthony/Documents/FitFriends/FitFriends/index.html",
+		"/C/Users/Anthony/Documents/FitFriends/FitFriends/js/index.js",
+		"/C/Users/Anthony/Documents/FitFriends/FitFriends/aboutus.html",
+		"/C/Users/Anthony/Documents/FitFriends/help.html",
+		"/C/Users/Anthony/Downloads/zotmaps-export-1 (1).json",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project2/Lab2.c",
+		"/C/Users/Anthony/Documents/FitFriends/FitFriends/README.md",
+		"/C/Users/Anthony/AppData/Local/Temp/scp28808/home/anthonjn/ics53/lab2/arr_file.txt",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project2/arr_file.txt",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project 1/Lab1.c",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project2/temp.c",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project2/temp.txt",
+		"/C/Users/Anthony/Documents/Winter 2018/143B/ListNode.py",
+		"/C/Users/Anthony/Downloads/buildlist.plist",
+		"/C/Users/Anthony/Downloads/zotmaps-export-1.json",
+		"/C/Users/Anthony/Documents/Resume Items/michael",
+		"/C/Users/Anthony/Documents/Resume Items/Houzz changes the way one can buy items their hous",
+		"/C/Users/Anthony/Documents/Spanish Notes/SPANISH",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project 1/oi.txt",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project 1/r.txt",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project 1/pr.txt",
+		"/C/Users/Anthony/Documents/Winter 2018/53/project 1/lb1.c",
+		"/C/Users/Anthony/Documents/Winter 2018/143B/RCB.py",
+		"/C/Users/Anthony/Documents/Winter 2018/143B/mainProgram.py",
+		"/C/Users/Anthony/Documents/Winter 2018/143B/ReadyList.py",
+		"/C/Users/Anthony/Documents/Winter 2018/143B/PCB.py",
+		"/C/Users/Anthony/AppData/Local/Temp/scp06200/home/anthonjn/ics53/pr.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp27352/home/anthonjn/ics53/Lab1.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp50893/home/anthonjn/ics53/lb1.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp25351/home/anthonjn/ics53/r.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp25167/home/anthonjn/ics53/pr.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp25849/home/anthonjn/ics53/oi.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp20229/home/anthonjn/ics53/Lab1.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp16575/home/anthonjn/ics53/r.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp41574/home/anthonjn/ics53/pr.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp41164/home/anthonjn/ics53/oi.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp11659/home/anthonjn/ics53/Lab1.c",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/Users/Anthony/AppData/Local/Temp/scp38283/home/anthonjn/ics53/Lab1.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp42851/home/anthonjn/ics53/Lab1.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp18806/home/anthonjn/ics53/oi.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp19428/home/anthonjn/ics53/r.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp19799/home/anthonjn/ics53/pr.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp38025/home/anthonjn/ics53/offerInfo.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp44305/home/anthonjn/ics53/req.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp44568/home/anthonjn/ics53/prereq.txt",
+		"/C/Users/Anthony/AppData/Local/Temp/scp53798/home/anthonjn/ics53/mainreturn.cpp",
+		"/C/Users/Anthony/AppData/Local/Temp/scp42933/home/anthonjn/ics53/Lab1.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp50910/home/anthonjn/ics53/hello.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp49612/home/anthonjn/ics53/mainreturn.cpp",
+		"/C/Users/Anthony/AppData/Local/Temp/scp53468/home/anthonjn/ics53/Lab1.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp53538/home/anthonjn/ics53/Lab1.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp03792/home/anthonjn/public_html/index.html",
+		"/C/Users/Anthony/AppData/Local/Temp/scp16005/home/anthonjn/public_html/index.html",
+		"/C/Users/Anthony/AppData/Local/Temp/scp16551/home/anthonjn/public_html/zotmaps.html",
+		"/C/Users/Anthony/AppData/Local/Temp/scp04302/home/anthonjn/public_html/zotmaps.html",
+		"/C/Users/Anthony/AppData/Local/Temp/Temp1_fs.zip/fs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/Temp1_fs.zip/mkfs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp37681/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/fs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp37693/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/mkfs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp09978/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/mkfs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp08258/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/fs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp47802/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/fs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp51013/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/mkfs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp10440/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/fs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp02975/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/mkfs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp01045/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/fs.c",
+		"/C/Users/Anthony/Downloads/script (4).sql",
+		"/C/Users/Anthony/Downloads/homework5 (1).sql",
+		"/C/Users/Anthony/Downloads/assignment6_template_part2.sql",
+		"/C/Users/Anthony/AppData/Local/Temp/scp56830/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/fs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp59566/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/fs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp00700/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/fs.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp59386/home/anthonjn/ics143a/xv6-vagrant-master/ics143a/xv6-public/file.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp05516/home/anthonjn/public_html/css/style.css",
+		"/C/Users/Anthony/AppData/Local/Temp/scp06139/home/anthonjn/public_html/index.html",
+		"/C/Users/Anthony/Downloads/script (2).sql",
+		"/C/Users/Anthony/Downloads/test_cases_fdch18ca5r9/output001.txt",
+		"/C/Users/Anthony/Downloads/test_cases_fdch18ca5r9/input001.txt",
+		"/C/Users/Anthony/Downloads/script (1).sql",
+		"/C/Users/Anthony/Downloads/my-website/css/style.css",
+		"/C/Users/Anthony/Documents/Fall 2017 Homework/132 Hw 2",
+		"/C/Users/Anthony/AppData/Local/Temp/scp06233/users/ugrad/2017/fall/anthonjn/smtp_client.py",
+		"/C/Users/Anthony/AppData/Local/Temp/scp11260/users/ugrad/2017/fall/anthonjn/smtp.py",
+		"/C/Users/Anthony/AppData/Local/Temp/scp06032/users/ugrad/2017/fall/anthonjn/http_server_multi.py",
+		"/C/Users/Anthony/AppData/Local/Temp/scp06908/users/ugrad/2017/fall/anthonjn/http_server.py",
+		"/C/Users/Anthony/AppData/Local/Temp/scp05683/users/ugrad/2017/fall/anthonjn/http_client.py",
+		"/C/Users/Anthony/Downloads/script.sql",
+		"/C/Users/Anthony/Documents/script.sql",
+		"/C/Users/Anthony/AppData/Local/Temp/scp08405/home/anthonjn/hw/hw3/standard_main.cpp",
+		"/C/Users/Anthony/AppData/Local/Temp/scp38703/home/anthonjn/hw/hw3/String.h",
+		"/C/Users/Anthony/AppData/Local/Temp/scp37121/home/anthonjn/hw/hw3/String.cpp",
+		"/C/Users/Anthony/AppData/Local/Temp/scp55960/home/anthonjn/hw/hw1/Stack.h",
+		"/C/Users/Anthony/AppData/Local/Temp/scp54929/home/anthonjn/hw/hw2/Coins.h",
+		"/C/Users/Anthony/Documents/Website/index.css",
+		"/C/Users/Anthony/Documents/Website/index.php",
+		"/C/Users/Anthony/AppData/Local/Temp/scp37950/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp28988/home/anthonjn/hw/hw2/Coins.h",
+		"/C/Users/Anthony/AppData/Local/Temp/scp50601/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp51883/home/anthonjn/ics143a/hw1/t.sh",
+		"/C/Users/Anthony/AppData/Local/Temp/scp19253/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp44950/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp21055/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp58353/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp45785/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp08733/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp54209/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/AppData/Local/Temp/scp21105/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/Users/Anthony/Desktop/Spanish",
+		"/C/Users/Anthony/Desktop/soc1a_temp",
+		"/C/Users/Anthony/AppData/Local/Temp/scp20070/home/anthonjn/ics143a/hw1/sh.c",
+		"/C/xampp/htdocs/TestServer/add.php",
+		"/C/Users/Anthony/Documents/Website/index.html"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "mainProgram.sublime-project",
+	"replace":
+	{
+		"height": 65.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 300.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

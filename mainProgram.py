@@ -51,7 +51,8 @@ def request(rid, n_units, RCBList, RL):
 	else:
 		currRunning.value.set_type("Blocked")
 		currRunning.value.set_back_list(RCB)
-
+		#now i have to remove item from the ready list. 
+		#and now need to put it onto the waitinglist on the RCB its being blocked by
 		pass
 	#check if n_units > than start_units
 	'''
