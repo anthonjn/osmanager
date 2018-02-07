@@ -42,12 +42,32 @@ def findNode(ll, PID):
 		curr = curr.next
 	return False
 
+def findNodeWL(ll, PID):
+	curr = ll
+	prev = None
+	#print("this is curr: ", curr.value)
+	while curr:
+		#print("this is curr:",curr.value.PID)
+		if curr.value[0].PID == PID:
+			return True
+		curr = curr.next
+	return False
+
 def getNode(ll, PID):
 	curr = ll
 	prev = None
 	while curr:
 		if curr.value.PID == PID:
 			return curr.value
+		curr = curr.next
+	return None
+
+def getNodeWL(ll, PID):
+	curr = ll
+	prev = None
+	while curr:
+		if curr.value[0].PID == PID:
+			return curr.value[0]
 		curr = curr.next
 	return None
 
@@ -66,7 +86,6 @@ def removeNode(ll, PID):
 	prev = None
 	curr = ll
 	if(curr is not None):
-		print("here")
 		if (curr.value.PID == PID):
 			return delHeadNode(ll)
 	while curr:
@@ -80,6 +99,24 @@ def removeNode(ll, PID):
 	del curr
 	return ll
 
+def removeNodeWaitingList(ll, data: "tuple"):
+	if(ll is None):
+		raise Excption("trying to delete from a empty linked list")
+	prev = None
+	curr = ll
+	if(curr is not None):
+		if (curr.value == data):
+			return delHeadNode(ll)
+	while curr:
+		if(curr.value == data):
+			break
+		prev = curr
+		curr = curr.next
+	if(curr == None):
+		return ll 
+	prev.next = curr.next
+	del curr
+	return ll
 '''
 Example of how to use the Linked List...
 remember to set LinkedList = delHeadNode for it to work.

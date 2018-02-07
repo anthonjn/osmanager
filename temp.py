@@ -117,3 +117,49 @@ for k,v in defa.items():
 
 	# for ele in r1.waiting_list:
 	# 	print("ele: ",ele[0].value.PID)
+
+
+	rl = ReadyList()
+	pb = LN(PCB(4,2))
+	pb.value.set_type("Running")
+	appendNode(pb,PCB(6,2))
+	rl.set_list(2,pb)
+
+	r1 = RCB(1532,20,20)
+	r2 = RCB(1533,20,20)
+	r3 = RCB(1534,20,20)
+	r4 = RCB(1535,20,20)
+	RCBList = [r1,r2,r3,r3]
+	#printLevels(rl)
+	request(1532,2,RCBList, rl)
+
+	pb2 = LN(PCB(9,2))
+	pb2.value.set_type("Running")
+	appendNode(pb2,PCB(7,2))
+	rl.set_list(2,pb2)
+	appendNode(rl.get_List(2),PCB(90,2)) #this is how you append things to the back of the RL.
+
+	#printLevels(rl)
+	request(1532,19,RCBList, rl)
+	# for k,v in pb.value.get_other_resources().items():
+	# 	print("key: ", k, " value: ", v)
+
+
+	# #release(1532,2,RCBList,rl)
+	# for ele in r1.waiting_list:
+	# 	print("ele: ",ele[0].value.PID)
+
+	# for ele in r1.waiting_list:
+	# 	print("ele2: ",ele)
+
+
+
+	pb3 = LN(PCB(10,2))
+	pb3.value.set_type("Running")
+	appendNode(pb3,PCB(11,2))
+	rl.set_list(2,pb3)
+	print("before the end: ")
+	printLevels(rl)
+	release(1532,2,RCBList,rl)
+	print("after")
+	printLevels(rl)
