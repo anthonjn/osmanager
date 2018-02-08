@@ -474,6 +474,8 @@ if __name__ == '__main__' :
 		elif(line[0] == "init"):
 			print("got to init:")
 			kid = initPros.get_child()
+			if(kid == None):
+				scheduler(RL,0)
 			while(kid != None):
 				destroy(RL, kid.value.PID, RCBList)
 				kid = kid.next
