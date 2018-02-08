@@ -163,3 +163,54 @@ for k,v in defa.items():
 	release(1532,2,RCBList,rl)
 	print("after")
 	printLevels(rl)
+
+
+	Time_out(RL)
+	destroy(RL,"z",RCBList)
+	printLevels(RL)
+	create("a",2,RL)
+	create("B",2,RL)
+	create("C",2,RL)
+
+	request(1532,19,RCBList, RL)
+	request(1533,22,RCBList, RL)
+	print("R1 TOTAL UNITS AFTER: ",R1.get_currentUnits())
+	printWaitList(RCBList)
+	destroy(RL, "a",RCBList)
+	print("AFTER")
+	print("R1 TOTAL UNITS AFTER: ",R1.get_currentUnits())
+	printWaitList(RCBList)
+	printLevels(RL)
+
+
+
+
+		
+	RL = ReadyList()
+	initPros = PCB("init",0)
+	initPros.set_type("Running")
+	initPros.set_back_list(RL)
+	RL.set_list(0,LN(initPros)) #setting it equal to the very first value. 
+	printLevels(RL)
+	create("z",2,RL)
+	# currRunningProcess, priorityLvl = getCurrentlyRunning(RL)
+	# print("this is curr running: ",currRunningProcess.value.PID)
+	R1 = RCB(1532,20,20)
+	R2 = RCB(1533,20,20)
+	R3 = RCB(1534,20,20)
+	R4 = RCB(1535,20,20)
+	RCBList = [R1,R2,R3,R4]
+	print("BEFORE")
+	printLevels(RL)
+	request(1532,19,RCBList, RL)
+	print("DURING")
+
+	printLevels(RL)
+	request(1532,5,RCBList, RL)
+	printWaitList(RCBList)
+	print("AFTER")
+	printLevels(RL)
+	printWaitList(RCBList)
+	destroy(RL,"z",RCBList)
+	printLevels(RL)
+	printWaitList(RCBList)
