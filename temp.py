@@ -214,77 +214,128 @@
 # 	destroy(RL,"z",RCBList)
 # 	printLevels(RL)
 # 	printWaitList(RCBList)
-from PCB import *
-class LN:
-    def __init__(self : "LN", value : object, nxt : "LN" = None):
-        self.value = value
-        self.next  = nxt
-    '''
-    this is used for something like:
-    for v in ll:
-    	print(v)
-    this will print things from the beginning to the end of the linked list
-    '''
-    def __iter__(self):
-    	curr = self
-    	while curr != None:
-    		yield curr.value
-    		curr = curr.next
+# from PCB import *
+# class LN:
+#     def __init__(self : "LN", value : object, nxt : "LN" = None):
+#         self.value = value
+#         self.next  = nxt
+#     '''
+#     this is used for something like:
+#     for v in ll:
+#     	print(v)
+#     this will print things from the beginning to the end of the linked list
+#     '''
+#     def __iter__(self):
+#     	curr = self
+#     	while curr != None:
+#     		yield curr.value
+#     		curr = curr.next
 
-def removeNode(ll, PID):
-	if(ll is None):
-		raise Excption("trying to delete from a empty linked list")
-	prev = None
-	curr = ll
-	if(curr is not None):
-		if (curr.value.PID == PID):
-			return delHeadNode(ll)
-	while curr:
-		if(curr.value.PID == PID):
-			break
-		prev = curr
-		curr = curr.next
-	if(curr == None):
-		return ll 
-	prev.next = curr.next
-	del curr
-	return ll
-
-
-A = LN(PCB(5,2))
-print(removeNode(A,5))
+# def removeNode(ll, PID):
+# 	if(ll is None):
+# 		raise Excption("trying to delete from a empty linked list")
+# 	prev = None
+# 	curr = ll
+# 	if(curr is not None):
+# 		if (curr.value.PID == PID):
+# 			return delHeadNode(ll)
+# 	while curr:
+# 		if(curr.value.PID == PID):
+# 			break
+# 		prev = curr
+# 		curr = curr.next
+# 	if(curr == None):
+# 		return ll 
+# 	prev.next = curr.next
+# 	del curr
+# 	return ll
 
 
-##FIRST SAMPLE TEST CASE
-create("x",2,RL)
-	create("y",1,RL)
-	Time_out(RL)
-	create("z",2,RL)
-	Time_out(RL)
-	request(1532,1,RCBList,RL)
-	Time_out(RL)
-	request(1532,1,RCBList,RL)
-	destroy(RL, "z", RCBList)
-	release(1532,1,RCBList, RL)
-	destroy(RL,"x", RCBList)
+# A = LN(PCB(5,2))
+# print(removeNode(A,5))
 
-#seoncd example test case
-	create("x",1,RL)
-	create("p",1,RL)
-	create("q",1,RL)
-	create("r",1,RL)
-	Time_out(RL)
-	request(1533,1,RCBList,RL)
-	Time_out(RL)
-	request(1534,3, RCBList, RL)
-	Time_out(RL)
-	request(1535,3, RCBList, RL)
-	Time_out(RL)
-	Time_out(RL)
-	request(1534,1, RCBList, RL)
-	request(1535,2, RCBList, RL)
-	request(1533,2, RCBList, RL)
-	Time_out(RL)
-	destroy(RL, "q", RCBList)
-	Time_out(RL)
-	Time_out(RL)
+
+# ##FIRST SAMPLE TEST CASE
+# create("x",2,RL)
+# 	create("y",1,RL)
+# 	Time_out(RL)
+# 	create("z",2,RL)
+# 	Time_out(RL)
+# 	request(1532,1,RCBList,RL)
+# 	Time_out(RL)
+# 	request(1532,1,RCBList,RL)
+# 	destroy(RL, "z", RCBList)
+# 	release(1532,1,RCBList, RL)
+# 	destroy(RL,"x", RCBList)
+
+# #seoncd example test case
+# 	create("x",1,RL)
+# 	create("p",1,RL)
+# 	create("q",1,RL)
+# 	create("r",1,RL)
+# 	Time_out(RL)
+# 	request(1533,1,RCBList,RL)
+# 	Time_out(RL)
+# 	request(1534,3, RCBList, RL)
+# 	Time_out(RL)
+# 	request(1535,3, RCBList, RL)
+# 	Time_out(RL)
+# 	Time_out(RL)
+# 	request(1534,1, RCBList, RL)
+# 	request(1535,2, RCBList, RL)
+# 	request(1533,2, RCBList, RL)
+# 	Time_out(RL)
+# 	destroy(RL, "q", RCBList)
+# 	Time_out(RL)
+# 	Time_out(RL)
+
+
+
+# 	FOR INIT:
+		# kid = initPros.get_child()
+	# while(kid != None):
+	# 	destroy(RL, kid.value.PID, RCBList)
+	# 	kid = kid.next
+
+the_file = "whateva.txt"
+
+
+
+
+def write():
+	file = open( the_file,"a")
+	file.write("goodbyee")
+
+write()
+
+
+
+	RCB = None
+	unit = 0
+	for RID, units in p.other_resources.items():
+		#print("this is RID: ", RID, "units: ", units)
+		for resource in RCBList:
+			if(resource.RID == RID):
+				RCB = resource
+				unit = units
+				break
+	if(RCB == None):
+		return
+	RCB.set_currentUnits(RCB.get_currentUnits() + unit) #update the num of units, and then add new process to the RL
+	#print("this is the resource's current units: ",RCB.get_currentUnits())
+	waitList = RCB.get_waitingList()
+
+	while(waitList != None and RCB.get_currentUnits() >= waitList.value[1]):
+		newPCB = waitList.value[0] #this is a PCB, that we have to add to the back OF READY LIST
+		#print("this should be PCB: ",newPCB)
+		RCB.set_currentUnits(RCB.get_currentUnits()-unit) #sub units bc we are running that instance
+		RCB.set_waitingList(removeNodeWaitingList(RCB.get_waitingList(), waitList.value)) #removes the node within the waiting list in the RCB.
+		newPCB.set_type("Ready")
+		newPCB.set_back_list(RL)
+		newPCB.other_resources[RCB.RID] += unit
+		parentLN = RL.get_List(newPCB.get_priority())
+		if(parentLN == None):
+			RL.set_list(newPCB.get_priority(),LN(newPCB))
+		else:
+			appendNode(parentLN, newPCB) #this will append the newPCB at the back of the linkedlist.
+		waitList = waitList.next

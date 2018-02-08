@@ -3,6 +3,8 @@ from ReadyList import *#ready list
 from  RCB import * #ready control block
 from ListNode import *
 
+
+
 def create(name: "PID", priority : "Number", RL : "ReadyList"): #parent : "PCB" the paprent portion came from 10:02 from lecture 2
 	newPCB = PCB(name,priority)
 	parent = RL.get_List(2).value if (RL.get_List(2) != None and RL.get_List(2).value.type == "Running") else RL.get_List(1).value if (RL.get_List(1) != None and RL.get_List(1).value.type == "Running") else RL.get_List(0).value
@@ -67,10 +69,12 @@ def request(rid, n_units, RCBList, RL):
 	for rcb in RCBList:
 		if(rcb.get_RID() == rid):
 			RCB = rcb
-	currRunning, level = getCurrentlyRunning(RL)
-		
+	currRunning, level = getCurrentlyRunning(RL)		
+	print("CURRENT UNITS: ",RCB.get_currentUnits(), "units requesting: ",n_units)
 	if(RCB.get_currentUnits() >= n_units): #we were able to subtract some units within the RCB
+
 		RCB.set_currentUnits(RCB.get_currentUnits()-n_units)
+		print("Now current units: ",RCB.get_currentUnits())
 		currRunning.value.other_resources[rid] += n_units	#increment the values within the default dict.
 	else:
 		currRunning.value.set_type("Blocked")
@@ -170,27 +174,28 @@ def updateResources(RCBList, p, RL):
 			if(resource.RID == RID):
 				RCB = resource
 				unit = units
+				RCB.set_currentUnits(RCB.get_currentUnits() + unit) #update the num of units, and then add new process to the RL
+				#print("this is the resource's current units: ",RCB.get_currentUnits())
+				waitList = RCB.get_waitingList()
+
+				while(waitList != None and RCB.get_currentUnits() >= waitList.value[1]):
+					newPCB = waitList.value[0] #this is a PCB, that we have to add to the back OF READY LIST
+					#print("this should be PCB: ",newPCB)
+					RCB.set_currentUnits(RCB.get_currentUnits()-unit) #sub units bc we are running that instance
+					RCB.set_waitingList(removeNodeWaitingList(RCB.get_waitingList(), waitList.value)) #removes the node within the waiting list in the RCB.
+					newPCB.set_type("Ready")
+					newPCB.set_back_list(RL)
+					newPCB.other_resources[RCB.RID] += unit
+					parentLN = RL.get_List(newPCB.get_priority())
+					if(parentLN == None):
+						RL.set_list(newPCB.get_priority(),LN(newPCB))
+					else:
+						appendNode(parentLN, newPCB) #this will append the newPCB at the back of the linkedlist.
+					waitList = waitList.next
 				break
 	if(RCB == None):
 		return
-	RCB.set_currentUnits(RCB.get_currentUnits() + unit) #update the num of units, and then add new process to the RL
-	#print("this is the resource's current units: ",RCB.get_currentUnits())
-	waitList = RCB.get_waitingList()
-
-	while(waitList != None and RCB.get_currentUnits() >= waitList.value[1]):
-		newPCB = waitList.value[0] #this is a PCB, that we have to add to the back OF READY LIST
-		#print("this should be PCB: ",newPCB)
-		RCB.set_currentUnits(RCB.get_currentUnits()-unit) #sub units bc we are running that instance
-		RCB.set_waitingList(removeNodeWaitingList(RCB.get_waitingList(), waitList.value)) #removes the node within the waiting list in the RCB.
-		newPCB.set_type("Ready")
-		newPCB.set_back_list(RL)
-		newPCB.other_resources[RCB.RID] += unit
-		parentLN = RL.get_List(newPCB.get_priority())
-		if(parentLN == None):
-			RL.set_list(newPCB.get_priority(),LN(newPCB))
-		else:
-			appendNode(parentLN, newPCB) #this will append the newPCB at the back of the linkedlist.
-		waitList = waitList.next
+	
 
 
 def Kill_tree(RL,p, RCBList):
@@ -342,8 +347,12 @@ def scheduler(RL, destroy):
 			currRunningProcess.value.set_type("Ready")
 			highestPriorityProcess.value.set_type("Running")
 		else:
-			highestPriorityProcess.value.set_type("Running")		
-		print(highestPriorityProcess.value.get_ID(), end = " ")
+			highestPriorityProcess.value.set_type("Running")	
+		output = open("Output.txt","a")
+		output.write(highestPriorityProcess.value.get_ID())	
+		output.write(" ")
+		print("THIS IS HIGHEST priority: ",highestPriorityProcess.value.get_ID(), end = " ")
+		output.close()
 		#print(highestPriorityProcess.value.get_type())
 	'''
 	find highest priority process p
@@ -359,88 +368,126 @@ def Time_out(RL):
 	RL.get_List(priorityLvl).value.set_type("Running")
 	scheduler(RL,0)
 
+def Check_units(RCBList, rid,units):
+	RCB = None
+	for rcb in RCBList:
+		if(rcb.get_RID() == rid):
+			RCB = rcb
+	if(units > RCB.get_startUnits()):
+		return 0 #cannot work
+	return 1
+
+def FileCheck(fn):
+    try:
+      open(fn, "r")
+      return 1
+    except IOError:
+      print ("Error: File does not appear to exist.")
+      return 0
+
+def error_Write():
+	print("error")
+	output = open("Output.txt","a")
+	output.write("error")	
+	output.write(" ")
+	output.close()
 if __name__ == '__main__' :
-	
+	#resetting all the values within the textfile
+	output = open("Output.txt","w")
+	output.write("init ")
+	output.close()
 	RL = ReadyList()
 	initPros = PCB("init",0)
 	initPros.set_type("Running")
 	initPros.set_back_list(RL)
 	RL.set_list(0,LN(initPros)) #setting it equal to the very first value. 
-	R1 = RCB(1532,1,1)
-	R2 = RCB(1533,2,2)
-	R3 = RCB(1534,3,3)
-	R4 = RCB(1535,4,4)
+	R1 = RCB("R1",1,1) #32
+	R2 = RCB("R2",2,2) #33
+	R3 = RCB("R3",3,3) #34 
+	R4 = RCB("R4",4,4) #35
 	RCBList = [R1,R2,R3,R4]
-
-	create("x",1,RL)
-	request(1535,2,RCBList,RL)
-	request(1535,1,RCBList,RL)
-	release(1535,1,RCBList, RL)
-	release(1535,2,RCBList, RL)
-
-	# printLevels(RL)
-	# printWaitList(RCBList)
-	# create("y",2,RL)
-	# request(1535,2,RCBList,RL)
-	# request(1532,1,RCBList,RL)
-	# request(1535,2,RCBList,RL)
-	destroy(RL, "x", RCBList)
-
+	# create("x",1,RL)
+	# create("p",1,RL)
 	# create("q",1,RL)
 	# create("r",1,RL)
 	# Time_out(RL)
-	# request(1533,1,RCBList,RL)
+	# request("R2",1,RCBList,RL)
 	# Time_out(RL)
-	# request(1534,3, RCBList, RL)
+	# request("R3",3, RCBList, RL)
 	# Time_out(RL)
-	# request(1535,3, RCBList, RL)
+	# request("R4",3, RCBList, RL)
 	# Time_out(RL)
 	# Time_out(RL)
-	# request(1534,1, RCBList, RL)
-	# request(1535,2, RCBList, RL)
-	# request(1533,2, RCBList, RL)
+	# request("R3",1, RCBList, RL)
+	# request("R4",2, RCBList, RL)
+	# request("R3",2, RCBList, RL)
 	# Time_out(RL)
 	# destroy(RL, "q", RCBList)
 	# Time_out(RL)
 	# Time_out(RL)
-	# kid = initPros.get_child()
-	# while(kid != None):
-	# 	destroy(RL, kid.value.PID, RCBList)
-	# 	kid = kid.next
 
+	#this is to check that the input is correct.
+	# fname = input('Enter file name: ') #uncomment this and then go from there
+	# while(not FileCheck(fname)):
+	# 	fname = input("Enter a real file: ")
 
-	# print("BEFORE ***********************************")
-	# printLevels(RL)
-	# printWaitList(RCBList)
-	# currRunningProcess, priorityLvl = getCurrentlyRunning(RL)
-	# print("this is curr running now: ", currRunningProcess.value.PID)
-	# create("lol",1,RL)
-	# create("lA",2,RL)
-	# create("lol2",1,RL)
-	# #printLevels(RL)
-	# r1 = RCB(1532,20,20)
-	# r2 = RCB(1533,20,20)
-	# r3 = RCB(1534,20,20)
-	# r4 = RCB(1535,20,20)
-	# RCBList = [r1,r2,r3,r3]
+	fname = "input.txt"
+	file = open(fname,"r")
+	for line in file:
+		line = line.strip('\n').split()
+		print(line)
+		if(line == []):
+			print('\n')
+			output = open("Output.txt","a")
+			output.write("\n")
+			output.close()
+		elif(line[0] == "cr"):
+			pid = line[1]
+			priority = int(line[2])
 
-	# request(1532, 500, RCBList, RL)
-	# # print("BEFORE ***********************************")
-	# printLevels(RL)
-	# # print("waiting list",r1.get_waitingList().value[0].PID)
-	# # print("this is levels")
-	# # printLevels(RL)
-	# # print("BEFORE ***********************************")
-	# # printLevels(RL)
-	# destroy(RL, "ape", RCBList)
-	# destroy(RL, "lA", RCBList)
-	# Time_out(RL)
-	# print("BEFORE ***********************************")
-	# # print("AFTER@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-	# printLevels(RL)
-	# currRunningProcess, priorityLvl = getCurrentlyRunning(RL)
-	# print("this is curr running now: ", currRunningProcess.value.PID)
-	# printLevels(RL)
+			create(pid,priority,RL)
+
+		elif(line[0] == "de"):
+			pid = line[1]
+			if(pid == "init"):
+				error_Write()
+			else:	
+				destroy(RL, line[1], RCBList)
+
+		elif(line[0] == "rel"):
+			rcbID = line[1]
+			units = int(line[2])
+			if ( not Check_units(RCBList, rcbID,units)):
+				error_Write()
+			else:
+				release(rcbID,units,RCBList, RL)
+
+		elif(line[0] == "req"):
+			rcbID = line[1]
+			units = int(line[2])
+			if ( not Check_units(RCBList, rcbID,units)):
+				error_Write()
+			else:
+				request(rcbID,units, RCBList, RL)
+		elif(line[0] == "to"):
+			Time_out(RL)
+		elif(line[0] == "init"):
+			print("got to init:")
+			kid = initPros.get_child()
+			while(kid != None):
+				destroy(RL, kid.value.PID, RCBList)
+				kid = kid.next
+			printLevels(RL)
+			printWaitList(RCBList)
+			#destroys everything within the child. 
+		else:
+			#this is an invalid output
+			error_Write()
+		printLevels(RL)
+		printWaitList(RCBList)
+
+	# 	print(line)
+
 
 '''
 #commands: 
@@ -448,7 +495,7 @@ init: will kill everything and "restart the system" you can do this by destroyin
 cr <name> <priority> :priority is between 1&2, name will only be one char
 de <name> this will dstroy the thing in de
 req <resource name> <#of units>: reousrce name will be {R1,R2,R3,R4}
-rel <resource name>: reousrce name will be {R1,R2,R3,R4}
+rel <resource name> <#of units>: reousrce name will be {R1,R2,R3,R4}
 to : timeout, no params but will move that currently running process to the back of the list
 
 
