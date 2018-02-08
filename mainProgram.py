@@ -112,10 +112,10 @@ def release(rid, n_units, RCBList, RL): #something has to be running before it c
 	# print("waitlist val: ",waitList.value[1])
 
 	while(waitList != None and RCB.get_currentUnits() >= waitList.value[1]):
-		newPCB = waitList.value[0].value #this is a PCB, that we have to add to the back
+		newPCB = waitList.value[0] #this is a PCB, that we have to add to the back
 		#print("this should be PCB: ",newPCB)
 		RCB.set_currentUnits(RCB.get_currentUnits()-n_units) #sub units bc we are running that instance
-		RCB.set_waitingList(removeNodeWaitingList(RCB.get_waitingList(), waitList)) #removes the node within the waiting list in the RCB.
+		RCB.set_waitingList(removeNodeWaitingList(RCB.get_waitingList(), waitList.value)) #removes the node within the waiting list in the RCB.
 		newPCB.set_type("Ready")
 		newPCB.set_back_list(RL)
 		newPCB.other_resources[rid] += n_units
@@ -124,6 +124,7 @@ def release(rid, n_units, RCBList, RL): #something has to be running before it c
 			set_list(priority,LN(newPCB))
 		else:
 			appendNode(parentLN, newPCB) #this will append the newPCB at the back of the linkedlist.
+		waitList = waitList.next
 		#print("inside while loop:")
 	#print("finished the release")
 	scheduler(RL,0)
@@ -159,26 +160,43 @@ def get_PCB_priority(RL,p):
 	
 #WITHIN HERE HAVE TO LOOK OUT FOR THE BLOCKED LIST TO SEE IF THE PROCESS IS ON THERE TOO
 #OTHERWISE THINGS COULD GO VERY WRONG...
-def updateResources(RCBList, p):
+def updateResources(RCBList, p, RL):
 	#this is the PID WE WANT TO PUDATE RESOURCES FOR
-	finalResource = None
+	RCB = None
+	unit = 0
 	for RID, units in p.other_resources.items():
-		print("this is RID: ", RID, "units: ", units)
+		#print("this is RID: ", RID, "units: ", units)
 		for resource in RCBList:
 			if(resource.RID == RID):
-				finalResource = resource
+				RCB = resource
+				unit = units
 				break
-	if(finalResource == None):
+	if(RCB == None):
 		return
-	print("this is the resource's current units: ",finalResource.get_currentUnits())
-	finalResource.set_currentUnits(finalResource.get_currentUnits() + units)
-	
+	RCB.set_currentUnits(RCB.get_currentUnits() + unit) #update the num of units, and then add new process to the RL
+	#print("this is the resource's current units: ",RCB.get_currentUnits())
+	waitList = RCB.get_waitingList()
+
+	while(waitList != None and RCB.get_currentUnits() >= waitList.value[1]):
+		newPCB = waitList.value[0] #this is a PCB, that we have to add to the back OF READY LIST
+		#print("this should be PCB: ",newPCB)
+		RCB.set_currentUnits(RCB.get_currentUnits()-unit) #sub units bc we are running that instance
+		RCB.set_waitingList(removeNodeWaitingList(RCB.get_waitingList(), waitList.value)) #removes the node within the waiting list in the RCB.
+		newPCB.set_type("Ready")
+		newPCB.set_back_list(RL)
+		newPCB.other_resources[RCB.RID] += unit
+		parentLN = RL.get_List(newPCB.get_priority())
+		if(parentLN == None):
+			RL.set_list(newPCB.get_priority(),LN(newPCB))
+		else:
+			appendNode(parentLN, newPCB) #this will append the newPCB at the back of the linkedlist.
+		waitList = waitList.next
 
 
 def Kill_tree(RL,p, RCBList):
 	#print("this is the PID: ", p.PID)
 	if(p.child == None): #we know that there is nothing that spawned off of it
-		updateResources(RCBList, p)
+		updateResources(RCBList, p, RL)
 		tempPCB = get_PCB_priority(RL,p)
 		if(tempPCB[1] != -1):
 			#This means that it'sn not within the RCB's 
@@ -290,33 +308,34 @@ def printWaitList(RCBList):
 	ele = R1.get_waitingList()
 	print("R1 {currUnits: ", R1.get_currentUnits(),"}")
 	while (ele != None):
-		print(ele.value[0], "using : ",ele.value[1],"units", end = " ")
+		print(ele.value[0], "wants : ",ele.value[1],"units", end = " ")
 		ele = ele.next
 	ele = R2.get_waitingList()
 	print("None")
 	print("R2 {currUnits: ", R2.get_currentUnits(), "}")
 	while (ele != None):
-		print(ele.value[0], "using : ",ele.value[1],"units", end = " ")
+		print(ele.value[0], "wants : ",ele.value[1],"units", end = " ")
 		ele = ele.next
 	print("None")	
 	ele = R3.get_waitingList()
 	print("R3 {currUnits: ", R3.get_currentUnits(), "}")
 	while (ele != None):
-		print(ele.value[0], "using : ",ele.value[1],"units", end = " ")
+		print(ele.value[0], "wants : ",ele.value[1],"units", end = " ")
 		ele = ele.next
 	print("None")
 	ele = R4.get_waitingList()
 	print("R4 {currUnits: ", R4.get_currentUnits(), "}")
 	while (ele != None):
-		print(ele.value[0], "using : ",ele.value[1],"units", end = " ")
+		print(ele.value[0], "wants : ",ele.value[1],"units", end = " ")
 		ele = ele.next
 	print("None")
 def scheduler(RL, destroy):
 	currRunningProcess, priorityLvl = getCurrentlyRunning(RL)		#this curr running process is a list Node
 	# print(currRunningProcess)
-	# print(currRunningProcess.value.PID, " this is currenty running")
+	#print(currRunningProcess.value.PID, " this is currenty running")
 	highestPriorityProcess, highPrioritylvl = getHighestPcb(RL)
-	#print("this is curr running process. value: ", currRunningProcess)
+	# print("this is curr running process. value: ", currRunningProcess)
+	# print("this is HIGHEST running process. value: ", highestPriorityProcess.value.PID)
 	if(destroy == 1 or currRunningProcess.value.get_type() == "Running" or currRunningProcess.value.get_priority() < highestPriorityProcess.value.get_priority()):
 		#means that there is a process that got deleted while running, so have to just set thhe highest priority process =  Running
 		if(currRunningProcess != 0):
@@ -324,7 +343,7 @@ def scheduler(RL, destroy):
 			highestPriorityProcess.value.set_type("Running")
 		else:
 			highestPriorityProcess.value.set_type("Running")		
-		print(highestPriorityProcess.value.get_ID())
+		print(highestPriorityProcess.value.get_ID(), end = " ")
 		#print(highestPriorityProcess.value.get_type())
 	'''
 	find highest priority process p
@@ -347,31 +366,52 @@ if __name__ == '__main__' :
 	initPros.set_type("Running")
 	initPros.set_back_list(RL)
 	RL.set_list(0,LN(initPros)) #setting it equal to the very first value. 
-	printLevels(RL)
-	create("z",2,RL)
-	# currRunningProcess, priorityLvl = getCurrentlyRunning(RL)
-	# print("this is curr running: ",currRunningProcess.value.PID)
-	R1 = RCB(1532,20,20)
-	R2 = RCB(1533,20,20)
-	R3 = RCB(1534,20,20)
-	R4 = RCB(1535,20,20)
+	R1 = RCB(1532,1,1)
+	R2 = RCB(1533,2,2)
+	R3 = RCB(1534,3,3)
+	R4 = RCB(1535,4,4)
 	RCBList = [R1,R2,R3,R4]
-	print("BEFORE")
-	printLevels(RL)
-	request(1532,19,RCBList, RL)
-	print("DURING")
 
-	printLevels(RL)
-	request(1532,5,RCBList, RL)
-	printWaitList(RCBList)
-	print("AFTER")
-	printLevels(RL)
-	printWaitList(RCBList)
-	destroy(RL,"z",RCBList)
-	printLevels(RL)
-	printWaitList(RCBList)
+	create("x",1,RL)
+	request(1535,2,RCBList,RL)
+	request(1535,1,RCBList,RL)
+	release(1535,1,RCBList, RL)
+	release(1535,2,RCBList, RL)
+
+	# printLevels(RL)
+	# printWaitList(RCBList)
+	# create("y",2,RL)
+	# request(1535,2,RCBList,RL)
+	# request(1532,1,RCBList,RL)
+	# request(1535,2,RCBList,RL)
+	destroy(RL, "x", RCBList)
+
+	# create("q",1,RL)
+	# create("r",1,RL)
+	# Time_out(RL)
+	# request(1533,1,RCBList,RL)
+	# Time_out(RL)
+	# request(1534,3, RCBList, RL)
+	# Time_out(RL)
+	# request(1535,3, RCBList, RL)
+	# Time_out(RL)
+	# Time_out(RL)
+	# request(1534,1, RCBList, RL)
+	# request(1535,2, RCBList, RL)
+	# request(1533,2, RCBList, RL)
+	# Time_out(RL)
+	# destroy(RL, "q", RCBList)
+	# Time_out(RL)
+	# Time_out(RL)
+	# kid = initPros.get_child()
+	# while(kid != None):
+	# 	destroy(RL, kid.value.PID, RCBList)
+	# 	kid = kid.next
+
+
 	# print("BEFORE ***********************************")
 	# printLevels(RL)
+	# printWaitList(RCBList)
 	# currRunningProcess, priorityLvl = getCurrentlyRunning(RL)
 	# print("this is curr running now: ", currRunningProcess.value.PID)
 	# create("lol",1,RL)
