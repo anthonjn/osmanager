@@ -70,11 +70,11 @@ def request(rid, n_units, RCBList, RL):
 		if(rcb.get_RID() == rid):
 			RCB = rcb
 	currRunning, level = getCurrentlyRunning(RL)		
-	print("CURRENT UNITS: ",RCB.get_currentUnits(), "units requesting: ",n_units)
+	#print("CURRENT UNITS: ",RCB.get_currentUnits(), "units requesting: ",n_units)
 	if(RCB.get_currentUnits() >= n_units): #we were able to subtract some units within the RCB
 
 		RCB.set_currentUnits(RCB.get_currentUnits()-n_units)
-		print("Now current units: ",RCB.get_currentUnits())
+		#print("Now current units: ",RCB.get_currentUnits())
 		currRunning.value.other_resources[rid] += n_units	#increment the values within the default dict.
 	else:
 		currRunning.value.set_type("Blocked")
@@ -288,7 +288,6 @@ def destroy(RL,PID, RCBList):
 
 def printLevels(RL):
 	print("********************NEW********************")
-	currPCB = None
 	currentPCB = RL.get_List(2)
 	print("Level 2: ")
 	while(currentPCB != None):
@@ -313,25 +312,25 @@ def printWaitList(RCBList):
 	ele = R1.get_waitingList()
 	print("R1 {currUnits: ", R1.get_currentUnits(),"}")
 	while (ele != None):
-		print(ele.value[0], "wants : ",ele.value[1],"units", end = " ")
+		print(ele.value[0].PID, "wants : ",ele.value[1],"units", end = " ")
 		ele = ele.next
 	ele = R2.get_waitingList()
 	print("None")
 	print("R2 {currUnits: ", R2.get_currentUnits(), "}")
 	while (ele != None):
-		print(ele.value[0], "wants : ",ele.value[1],"units", end = " ")
+		print(ele.value[0].PID, "wants : ",ele.value[1],"units", end = " ")
 		ele = ele.next
 	print("None")	
 	ele = R3.get_waitingList()
 	print("R3 {currUnits: ", R3.get_currentUnits(), "}")
 	while (ele != None):
-		print(ele.value[0], "wants : ",ele.value[1],"units", end = " ")
+		print(ele.value[0].PID, "wants : ",ele.value[1],"units", end = " ")
 		ele = ele.next
 	print("None")
 	ele = R4.get_waitingList()
 	print("R4 {currUnits: ", R4.get_currentUnits(), "}")
 	while (ele != None):
-		print(ele.value[0], "wants : ",ele.value[1],"units", end = " ")
+		print(ele.value[0].PID, "wants : ",ele.value[1],"units", end = " ")
 		ele = ele.next
 	print("None")
 def scheduler(RL, destroy):
@@ -351,7 +350,7 @@ def scheduler(RL, destroy):
 		output = open("Output.txt","a")
 		output.write(highestPriorityProcess.value.get_ID())	
 		output.write(" ")
-		print("THIS IS HIGHEST priority: ",highestPriorityProcess.value.get_ID(), end = " ")
+		#print("THIS IS HIGHEST priority: ",highestPriorityProcess.value.get_ID(), end = " ")
 		output.close()
 		#print(highestPriorityProcess.value.get_type())
 	'''
@@ -373,6 +372,8 @@ def Check_units(RCBList, rid,units):
 	for rcb in RCBList:
 		if(rcb.get_RID() == rid):
 			RCB = rcb
+	if(RCB == None):
+		return 0
 	if(units > RCB.get_startUnits()):
 		return 0 #cannot work
 	return 1
@@ -385,16 +386,87 @@ def FileCheck(fn):
       print ("Error: File does not appear to exist.")
       return 0
 
+def isPIDValid(RL,RCBList, PID):
+	R1,R2,R3,R4 = RCBList[0],RCBList[1],RCBList[2],RCBList[3]
+	ele = R1.get_waitingList()
+	while (ele != None):
+		if(ele.value[0].PID== PID):
+			return -1
+		ele = ele.next
+	ele = R2.get_waitingList()
+	while (ele != None):
+		if(ele.value[0].PID == PID):
+			return -1
+		ele = ele.next
+	ele = R3.get_waitingList()
+	while (ele != None):
+		if(ele.value[0].PID == PID):
+			return -1
+		ele = ele.next
+	ele = R4.get_waitingList()
+	while (ele != None):
+		if(ele.value[0].PID== PID):
+			return -1
+		ele = ele.next
+
+	currentPCB = RL.get_List(2)
+	while(currentPCB != None):
+		if(currentPCB.value.PID == PID):
+			return -1
+		currentPCB = currentPCB.next
+	currentPCB = RL.get_List(1)
+	while(currentPCB != None):
+		#print("within the second pcb val, currPCB.value.pid = ", currentPCB.value.PID, "x: ", PID,currentPCB.value.PID == PID )
+		if(currentPCB.value.PID == PID):
+			return -1
+		currentPCB = currentPCB.next
+	currentPCB = RL.get_List(0)
+	while(currentPCB != None):
+		if(currentPCB.value.PID== PID):
+			return -1		
+		currentPCB = currentPCB.next
+	return 1
+
+def canRel(RL,rid, units):
+	currRun,level = getCurrentlyRunning(RL)
+	if(currRun == 0):
+		#theres an error somehow, 
+		return 0
+	if(currRun.value.other_resources[rid]): #this actually exits
+		if(currRun.value.other_resources[rid] >= units):
+			return 1
+	return 0
+	
+
+
 def error_Write():
-	print("error")
+	#print("error")
 	output = open("Output.txt","a")
 	output.write("error")	
 	output.write(" ")
 	output.close()
+
+def canDelete(currRunning, delPID):
+	#currently running process, check if it's equal bto destroy PID, check children and make sure they are equal to 
+	#print("currrunning value: ", currRunning.value.PID)
+	if (currRunning.value.PID == delPID):
+		return True
+	if findNode(currRunning.value.child,delPID):
+		#print("got to heres")
+		#if here then node is in the first layer
+		return True
+	else:
+		child = currRunning.value.child
+		while (child != None):
+			if(canDelete(child,delPID)):
+				return True
+			child = child.next
+	return False
+
 if __name__ == '__main__' :
 	#resetting all the values within the textfile
 	output = open("Output.txt","w")
-	output.write("init ")
+	#output.write("init ")
 	output.close()
 	RL = ReadyList()
 	initPros = PCB("init",0)
@@ -406,87 +478,79 @@ if __name__ == '__main__' :
 	R3 = RCB("R3",3,3) #34 
 	R4 = RCB("R4",4,4) #35
 	RCBList = [R1,R2,R3,R4]
-	# create("x",1,RL)
-	# create("p",1,RL)
-	# create("q",1,RL)
-	# create("r",1,RL)
-	# Time_out(RL)
-	# request("R2",1,RCBList,RL)
-	# Time_out(RL)
-	# request("R3",3, RCBList, RL)
-	# Time_out(RL)
-	# request("R4",3, RCBList, RL)
-	# Time_out(RL)
-	# Time_out(RL)
-	# request("R3",1, RCBList, RL)
-	# request("R4",2, RCBList, RL)
-	# request("R3",2, RCBList, RL)
-	# Time_out(RL)
-	# destroy(RL, "q", RCBList)
-	# Time_out(RL)
-	# Time_out(RL)
-
-	#this is to check that the input is correct.
-	# fname = input('Enter file name: ') #uncomment this and then go from there
-	# while(not FileCheck(fname)):
-	# 	fname = input("Enter a real file: ")
-
-	fname = "input.txt"
+	scheduler(RL,0)
+	fname = input("Enter File Name: ")
+	while(not FileCheck(fname)):
+		fname = input("Enter File Name: ")
 	file = open(fname,"r")
 	for line in file:
 		line = line.strip('\n').split()
-		print(line)
+		#print(line)
 		if(line == []):
-			print('\n')
+			#print('\n')
 			output = open("Output.txt","a")
 			output.write("\n")
 			output.close()
 		elif(line[0] == "cr"):
 			pid = line[1]
 			priority = int(line[2])
-
-			create(pid,priority,RL)
+			#print(isPIDValid(RL,RCBList, pid))
+			if(isPIDValid(RL,RCBList, pid) == -1):
+				error_Write()
+			elif(priority <= 2 and priority >= 1):
+				create(pid,priority,RL)
+			else:
+				error_Write()	
 
 		elif(line[0] == "de"):
 			pid = line[1]
-			if(pid == "init"):
+
+			currRun, lvl = getCurrentlyRunning(RL)
+			#print("trying to destroy: ", pid, "can I: ", canDelete(currRun,pid))
+			if(pid == "init" or not canDelete(currRun, pid)):
 				error_Write()
 			else:	
-				destroy(RL, line[1], RCBList)
-
+				try:
+					#print("trying to destroy")
+					destroy(RL, line[1], RCBList)
+				except (Exception):
+					error_Write()
 		elif(line[0] == "rel"):
 			rcbID = line[1]
 			units = int(line[2])
-			if ( not Check_units(RCBList, rcbID,units)):
+			#print("check units: ",Check_units(RCBList, rcbID,units), " can rel: ",canRel(RL, rcbID, units))
+			if (not Check_units(RCBList, rcbID,units) or not canRel(RL, rcbID, units)):
 				error_Write()
 			else:
 				release(rcbID,units,RCBList, RL)
 
 		elif(line[0] == "req"):
+			#printLevels(RL)
+			#printWaitList(RCBList)
 			rcbID = line[1]
 			units = int(line[2])
-			if ( not Check_units(RCBList, rcbID,units)):
+			curr,lvl = getCurrentlyRunning(RL)
+			if ( not Check_units(RCBList, rcbID,units) or curr.value.PID == "init"):
 				error_Write()
 			else:
 				request(rcbID,units, RCBList, RL)
 		elif(line[0] == "to"):
 			Time_out(RL)
 		elif(line[0] == "init"):
-			print("got to init:")
 			kid = initPros.get_child()
 			if(kid == None):
 				scheduler(RL,0)
 			while(kid != None):
 				destroy(RL, kid.value.PID, RCBList)
 				kid = kid.next
-			printLevels(RL)
-			printWaitList(RCBList)
+			#printLevels(RL)
+			#printWaitList(RCBList)
 			#destroys everything within the child. 
 		else:
 			#this is an invalid output
 			error_Write()
-		printLevels(RL)
-		printWaitList(RCBList)
+		#printLevels(RL)
+		#printWaitList(RCBList)
 
 	# 	print(line)
 
